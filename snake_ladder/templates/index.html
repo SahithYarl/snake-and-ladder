@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake and Ladder</title>
+    <script>
+        let currentPosition = 0;
+
+        async function rollDice() {
+            const userId = "test_user";  // Replace with dynamic user ID logic
+            const response = await fetch('/roll-dice', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_id: userId, current_position: currentPosition })
+            });
+            const data = await response.json();
+            currentPosition = data.new_position;
+            document.getElementById('dice-result').innerText = `Dice: ${data.dice_roll}`;
+            document.getElementById('position').innerText = `Position: ${currentPosition}`;
+        }
+    </script>
+</head>
+<body>
+    <h1>Snake and Ladder</h1>
+    <button onclick="rollDice()">Roll Dice</button>
+    <p id="dice-result">Dice: </p>
+    <p id="position">Position: 0</p>
+</body>
+</html>
